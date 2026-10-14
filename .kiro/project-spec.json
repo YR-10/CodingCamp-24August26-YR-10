@@ -1,0 +1,58 @@
+{
+  "project": "Dayflow",
+  "version": "1.0.0",
+  "author": "Student Full Stack Web Engineering",
+  "specVersion": "1.0",
+  "framework": "Vanilla HTML5/CSS3/JavaScript",
+  "features": {
+    "featureA_liveGreeting": {
+      "clock": true,
+      "date": true,
+      "contextualGreeting": true,
+      "customDisplayName": true,
+      "storageKey": "lifedash_username"
+    },
+    "featureB_pomodoroTimer": {
+      "workDurationMinutes": 25,
+      "breakDurationMinutes": 5,
+      "driftResistantTiming": true,
+      "visualProgressIndicator": "svg-circle",
+      "audioAlert": "web-audio-chime",
+      "storageKey": "lifedash_timer_prefs"
+    },
+    "featureC_todoList": {
+      "crud": true,
+      "duplicatePrevention": true,
+      "sorting": ["added-desc", "added-asc", "alpha-asc", "alpha-desc", "status"],
+      "filtering": ["all", "active", "completed"],
+      "storageKey": "lifedash_tasks"
+    },
+    "featureD_quickLinks": {
+      "urlValidation": true,
+      "protocolWhitelist": ["http:", "https:"],
+      "protocolBlacklist": ["javascript:", "data:", "file:", "vbscript:"],
+      "openNewTabSecure": true,
+      "storageKey": "lifedash_quicklinks"
+    }
+  },
+  "challenges": {
+    "challenge1_lightDarkMode": {
+      "implemented": true,
+      "themes": ["light", "dark"],
+      "storageKey": "lifedash_theme"
+    },
+    "challenge2_preventDuplicateTasks": {
+      "implemented": true,
+      "normalization": "trim-and-lowercase"
+    },
+    "challenge3_sortTasks": {
+      "implemented": true,
+      "modes": ["Newest First", "Oldest First", "Alphabetical (A-Z)", "Alphabetical (Z-A)", "By Completion Status"]
+    }
+  },
+  "deployment": {
+    "platform": "GitHub Pages",
+    "rootEntry": "index.html",
+    "assetsRelative": true
+  }
+}

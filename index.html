@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Dayflow — A calm, editorial personal productivity dashboard featuring live time awareness, focus instrument, task manager, and quick shortcuts.">
+  <meta name="color-scheme" content="light dark">
+  <title>Dayflow — Focus &amp; Productivity</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Accessibility skip link -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div class="app-layout">
+    <!-- EDITORIAL MASTHEAD -->
+    <header class="masthead" role="banner">
+      <div class="masthead-left">
+        <!-- Brand meta line -->
+        <div class="brand-bar">
+          <span class="brand-title">Dayflow</span>
+          <span class="brand-separator" aria-hidden="true">/</span>
+          <span id="current-date" class="current-date" aria-live="polite">Loading date...</span>
+        </div>
+
+        <!-- Editorial Greeting & Display Name -->
+        <div class="greeting-row">
+          <h1 class="greeting-heading">
+            <span id="greeting-text">Good day</span>,
+            <span id="user-name-display" class="user-name-display" tabindex="0" role="button" aria-label="Click to edit display name" title="Click to edit name">Friend</span>
+            <button id="edit-name-btn" class="icon-btn edit-name-btn" aria-label="Edit display name" title="Edit your name">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+            </button>
+          </h1>
+
+          <!-- Inline Name Edit Form -->
+          <form id="name-form" class="name-edit-form hidden" aria-label="Edit display name form">
+            <label for="name-input" class="sr-only">Your Display Name</label>
+            <input type="text" id="name-input" class="form-input name-input" maxlength="30" placeholder="Enter name" autocomplete="name">
+            <button type="submit" class="btn btn-primary btn-sm">Save</button>
+            <button type="button" id="cancel-name-btn" class="btn btn-secondary btn-sm">Cancel</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Masthead Right: Tabular Digital Clock & Unobtrusive Theme Toggle -->
+      <div class="masthead-right">
+        <div class="clock-display" aria-label="Digital Clock">
+          <span class="clock-label sr-only">Current Time:</span>
+          <time id="live-clock" class="live-clock" datetime="00:00:00">00:00:00</time>
+          <span id="clock-period" class="clock-period"></span>
+        </div>
+
+        <button id="theme-toggle-btn" class="theme-toggle-btn" aria-label="Switch between light and dark mode" title="Toggle theme">
+          <span class="theme-icon sun-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+          </span>
+          <span class="theme-icon moon-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </span>
+          <span class="sr-only">Toggle theme</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- MAIN PRODUCT WORKSPACE -->
+    <main id="main-content" class="dashboard-grid" role="main">
+
+      <!-- LEFT COLUMN: FOCUS INSTRUMENT & UTILITY SHORTCUTS -->
+      <aside class="dashboard-sidebar">
+
+        <!-- FEATURE B: FOCUS TIMER INSTRUMENT -->
+        <section class="panel timer-card" id="timer-section" aria-labelledby="timer-heading">
+          <div class="panel-header">
+            <div class="panel-title-wrap">
+              <h2 id="timer-heading" class="panel-title">Focus Session</h2>
+            </div>
+            <div class="timer-badge-wrap">
+              <span class="status-dot" aria-hidden="true"></span>
+              <span id="timer-status-badge" class="badge badge-neutral" aria-live="polite">Ready</span>
+            </div>
+          </div>
+
+          <!-- Mode Segmented Tabs -->
+          <div class="segmented-control timer-mode-selector" role="group" aria-label="Timer session modes">
+            <button type="button" class="mode-tab active" data-mode="focus" data-duration="25">Focus 25m</button>
+            <button type="button" class="mode-tab" data-mode="short-break" data-duration="5">Short 5m</button>
+            <button type="button" class="mode-tab" data-mode="long-break" data-duration="15">Long 15m</button>
+          </div>
+
+          <!-- Precision Progress Indicator -->
+          <div class="timer-dial-container">
+            <svg class="progress-ring" viewBox="0 0 220 220" width="200" height="200" aria-hidden="true">
+              <circle class="progress-ring-bg" stroke-width="5" cx="110" cy="110" r="95"></circle>
+              <circle id="progress-ring-bar" class="progress-ring-bar" stroke-width="5" stroke-linecap="round" cx="110" cy="110" r="95"></circle>
+            </svg>
+            <div class="timer-dial-face">
+              <div id="timer-countdown" class="timer-digits" aria-live="off">25:00</div>
+              <div id="timer-mode-label" class="timer-phase">Work Session</div>
+            </div>
+          </div>
+
+          <!-- Restrained Completion Banner (No Emojis) -->
+          <div id="timer-alert" class="timer-alert hidden" role="alert" aria-live="assertive">
+            <span class="timer-alert-bullet" aria-hidden="true">●</span>
+            <span id="timer-alert-text">Session finished. Take a breath and rest.</span>
+          </div>
+
+          <!-- Timer Action Controls -->
+          <div class="timer-actions">
+            <button id="timer-toggle-btn" class="btn btn-primary" aria-label="Start Timer">
+              <span id="timer-toggle-text">Start</span>
+            </button>
+            <button id="timer-reset-btn" class="btn btn-secondary" aria-label="Reset Timer">
+              <span>Reset</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- FEATURE D: QUICK SHORTCUTS SHELF -->
+        <section class="panel quicklinks-card" id="quicklinks-section" aria-labelledby="quicklinks-heading">
+          <div class="panel-header">
+            <h2 id="quicklinks-heading" class="panel-title">Quick Links</h2>
+            <button id="toggle-add-link-btn" class="btn-subtle-action" aria-expanded="false" aria-controls="add-link-form" aria-label="Add new shortcut">
+              <span aria-hidden="true">+</span> Add
+            </button>
+          </div>
+
+          <!-- Collapsible Shortcut Form -->
+          <form id="add-link-form" class="add-link-form hidden" aria-label="Add new shortcut form" novalidate>
+            <div class="form-fields">
+              <div class="field-item">
+                <label for="link-title-input" class="field-label">Title</label>
+                <input type="text" id="link-title-input" class="form-input form-input-sm" placeholder="e.g. GitHub" maxlength="40" required>
+              </div>
+              <div class="field-item">
+                <label for="link-url-input" class="field-label">URL</label>
+                <input type="url" id="link-url-input" class="form-input form-input-sm" placeholder="https://example.com" required>
+              </div>
+            </div>
+            <div id="link-error-msg" class="feedback-msg error-msg hidden" role="alert"></div>
+            <div class="form-buttons">
+              <button type="submit" class="btn btn-primary btn-sm">Save Link</button>
+              <button type="button" id="cancel-link-btn" class="btn btn-secondary btn-sm">Cancel</button>
+            </div>
+          </form>
+
+          <!-- Links Stream -->
+          <div id="links-container" class="links-stream" role="list" aria-label="Saved shortcuts list">
+            <!-- Dynamically populated by script.js -->
+          </div>
+
+          <!-- Compact Empty State -->
+          <div id="links-empty-state" class="empty-state empty-state-compact hidden">
+            <p class="empty-text">No shortcuts added yet.</p>
+          </div>
+        </section>
+
+      </aside>
+
+      <!-- RIGHT COLUMN: TASKS & PRIORITIES WORKSPACE (THE HERO SECTION) -->
+      <section class="panel tasks-card" id="tasks-section" aria-labelledby="tasks-heading">
+        <div class="panel-header tasks-header">
+          <div class="panel-title-wrap">
+            <h2 id="tasks-heading" class="panel-title">Tasks &amp; Priorities</h2>
+          </div>
+          <div class="task-stats-badge" aria-label="Task progress">
+            <span id="tasks-completed-count">0</span> / <span id="tasks-total-count">0</span> completed
+          </div>
+        </div>
+
+        <!-- Fast Task Input Field -->
+        <form id="add-task-form" class="add-task-form" aria-label="Add new task form" novalidate>
+          <div class="task-input-bar">
+            <label for="task-input" class="sr-only">New task description</label>
+            <input type="text" id="task-input" class="form-input task-input" placeholder="Add a new task and press Enter..." maxlength="160" autocomplete="off" required>
+            <button type="submit" id="add-task-btn" class="btn btn-primary task-submit-btn">
+              <span>Add</span>
+            </button>
+          </div>
+          <!-- Accessible Live Region Feedback -->
+          <div id="task-feedback" class="feedback-msg hidden" role="alert" aria-live="polite"></div>
+        </form>
+
+        <!-- Structured Toolbar: Segmented Filters & Sort Selector -->
+        <div class="tasks-toolbar">
+          <!-- Filter Tabs -->
+          <div class="segmented-control filter-group" role="tablist" aria-label="Filter tasks">
+            <button type="button" class="filter-tab active" data-filter="all" role="tab" aria-selected="true">
+              All <span class="tab-count" id="filter-all-count">0</span>
+            </button>
+            <button type="button" class="filter-tab" data-filter="active" role="tab" aria-selected="false">
+              Active <span class="tab-count" id="filter-active-count">0</span>
+            </button>
+            <button type="button" class="filter-tab" data-filter="completed" role="tab" aria-selected="false">
+              Completed <span class="tab-count" id="filter-completed-count">0</span>
+            </button>
+          </div>
+
+          <!-- Sort Select Control -->
+          <div class="sort-control-wrap">
+            <label for="task-sort-select" class="sort-label">Sort:</label>
+            <div class="select-frame">
+              <select id="task-sort-select" class="sort-select" aria-label="Sort tasks">
+                <option value="added-desc">Newest First</option>
+                <option value="added-asc">Oldest First</option>
+                <option value="alpha-asc">Alphabetical (A → Z)</option>
+                <option value="alpha-desc">Alphabetical (Z → A)</option>
+                <option value="status">Status (Pending First)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Task List Rows -->
+        <div class="task-list-wrapper">
+          <ul id="task-list" class="task-list" aria-label="To-do items list">
+            <!-- Dynamically populated by script.js -->
+          </ul>
+
+          <!-- Restrained, Purposeful Empty State (Zero Emojis) -->
+          <div id="tasks-empty-state" class="empty-state hidden">
+            <div class="empty-symbol" aria-hidden="true">—</div>
+            <h3 id="empty-state-title" class="empty-title">All tasks completed</h3>
+            <p id="empty-state-desc" class="empty-text">No active items remaining. Take a breath or plan your next focus.</p>
+          </div>
+        </div>
+
+        <!-- Bottom Action Bar -->
+        <div class="tasks-footer">
+          <span id="tasks-remaining-text" class="tasks-summary-text">0 tasks pending</span>
+          <button type="button" id="clear-completed-btn" class="btn-subtle-action" aria-label="Clear all completed tasks">
+            Clear Completed
+          </button>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- DISCREET FOOTER -->
+    <footer class="app-footer" role="contentinfo">
+      <p class="footer-text">
+        <strong>Dayflow</strong> — Intentional Personal Productivity. Stored locally in your browser.
+      </p>
+    </footer>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
